@@ -2,7 +2,6 @@ package Catalyst::ActionRole::ExpiresHeader;
 
 use Moose::Role;
 use HTTP::Date qw(time2str);
-use namespace::autoclean;
 
 our $VERSION = '0.01';
 
@@ -62,12 +61,9 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
-around 'execute' => sub {
-    my $orig = shift;
+after 'execute' => sub {
     my $self = shift;
     my ($controller, $c, @args) = @_;
-
-    my $action = $self->$orig($controller, $c, @args);
 
     if ( my $expires_attr = $c->action->attributes->{Expires} ) {
         my $expires = $self->_parse_Expires_attr( $expires_attr->[0] );
@@ -78,8 +74,6 @@ around 'execute' => sub {
             );
         }
     }
-
-    return $action;
 };
 
 {
