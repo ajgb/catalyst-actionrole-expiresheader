@@ -2,10 +2,9 @@ use strict;
 use warnings;
 use Test::More tests => 54;
 
-use FindBin;
-use lib "$FindBin::Bin/lib";
 use DateTime::Format::DateParse;
 
+use lib qw( t/lib );
 use Catalyst::Test 'TestApp';
 
 my @controllers = qw(
