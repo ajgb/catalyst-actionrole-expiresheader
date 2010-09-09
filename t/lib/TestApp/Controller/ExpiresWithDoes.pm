@@ -7,10 +7,6 @@ BEGIN { extends 'Catalyst::Controller::ActionRole' }
 
 use HTTP::Date qw( time2str );
 
-__PACKAGE__->config(
-    action_roles => [qw( ExpiresHeader )],
-);
-
 sub expires_in_one_day  : Local Does('ExpiresHeader') Expires('+1d') {
     my ($self, $c) = @_;
     $c->res->body( join(":", $c->action->name, 'Expires', '+1d' ) );
