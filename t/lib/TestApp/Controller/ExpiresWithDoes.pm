@@ -1,10 +1,15 @@
 package TestApp::Controller::ExpiresWithDoes;
 
 use Moose;
-BEGIN { extends 'Catalyst::Controller'; }
-with 'Catalyst::TraitFor::Controller::ActionRole';
+use namespace::autoclean;
+
+BEGIN { extends 'Catalyst::Controller::ActionRole' }
 
 use HTTP::Date qw( time2str );
+
+__PACKAGE__->config(
+    action_roles => [qw( ExpiresHeader )],
+);
 
 sub expires_in_one_day  : Local Does('ExpiresHeader') Expires('+1d') {
     my ($self, $c) = @_;

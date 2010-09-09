@@ -1,12 +1,16 @@
 package TestApp::Controller::ExpiresWithActionRoles;
 
 use Moose;
-BEGIN { extends 'Catalyst::Controller'; }
+use namespace::autoclean;
+
+BEGIN { extends 'Catalyst::Controller::ActionRole' }
+
 use HTTP::Date qw( time2str );
 
-with 'Catalyst::TraitFor::Controller::ActionRole' => {
-    action_roles => ['ExpiresHeader']
-};
+__PACKAGE__->config(
+    action_roles => [qw( ExpiresHeader )],
+);
+
 
 sub expires_in_one_day  : Local Expires('+1d') {
     my ($self, $c) = @_;
